@@ -316,3 +316,92 @@
         )
   )
 
+(defun add1 (lis)
+  (mapcar #'(lambda (n) (+ n 1)) lis)
+  )
+
+(defun add1 (lis)
+  (if (null lis) nil
+      (cons (+ (first lis) 1) (add1 (rest lis)))
+      )
+  )
+
+(defun greater-than-five-p (lis)
+  (mapcar 
+    #'(lambda (n)
+        (if (> n 5)
+            t
+            nil
+            )
+        )
+    lis
+    )
+  )
+
+(defun flip (lis)
+  (mapcar
+    #'(lambda (flag)
+        (cond
+          ((equal flag 'ON)
+           'OFF
+           )
+          ((equal flag 'OFF)
+           'ON
+           )
+          (t NIL)
+          )
+        )
+    lis
+    )
+  )
+
+(defun pick (lis)
+  (remove-if-not
+    #'(lambda (n)
+        (if (>= n 1)
+            (if (<= n 5)
+                t
+                nil
+                )
+            nil
+            )
+        )
+    lis
+    )
+  )
+
+(defun count-the (lis)
+  (length
+    (remove-if-not
+      #'(lambda (str)
+          (if (equal str 'the)
+              t
+              nil
+              )
+          )
+      lis
+      )
+    )
+  )
+
+(defun my-intersection (a b)
+  (remove-if-not
+    #'(lambda (n)
+        (member n b)
+        )
+    a
+    )
+  )
+
+(defun laughly-equal (x k)
+  (first (remove-if-not
+           #'(lambda (n)
+               (if (<= (abs (- n k)) 10)
+                   t
+                   nil
+                   )
+               )
+           x
+           )
+         )
+  )
