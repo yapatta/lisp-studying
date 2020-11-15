@@ -329,10 +329,7 @@
 (defun greater-than-five-p (lis)
   (mapcar 
     #'(lambda (n)
-        (if (> n 5)
-            t
-            nil
-            )
+        (> n 5)
         )
     lis
     )
@@ -370,14 +367,21 @@
     )
   )
 
+; bool値だとifを入れずにそのまま返せばいい
+(defun pick (lis)
+  (remove-if-not
+    #'(lambda (n)
+        (and (> n 1) (< n 5))
+        )
+    lis
+    )
+  )
+
 (defun count-the (lis)
   (length
     (remove-if-not
       #'(lambda (str)
-          (if (equal str 'the)
-              t
-              nil
-              )
+           (equal str 'the)
           )
       lis
       )
@@ -393,7 +397,7 @@
     )
   )
 
-(defun laughly-equal (x k)
+(defun roughly-equal (x k)
   (first (remove-if-not
            #'(lambda (n)
                (if (<= (abs (- n k)) 10)
@@ -405,3 +409,5 @@
            )
          )
   )
+
+

@@ -1,0 +1,83 @@
+(setf blockdata
+       '((b1 shape brick)
+         (b1 color green)
+         (b1 size small)
+         (b1 supported-by b2)
+         (b1 supported-by b3)
+         (b2 shape brick)
+         (b2 color red)
+         (b2 size small)
+         (b2 supports b1)
+         (b2 left-of b3)
+         (b3 shape brick)
+         (b3 color red)
+         (b3 size small)
+         (b3 supports b1)
+         (b3 right-of b2)
+         (b4 shape pyramid)
+         (b4 color blue)
+         (b4 size large)
+         (b4 supported-by b5)
+         (b5 shape cube)
+         (b5 color green)
+         (b5 size large)
+         (b5 supports b4)
+         (b6 shape brick)
+         (b6 color purple)
+         (b6 size large)))
+
+; yが検索文字列
+(defun match-element (x y)
+  (cond
+    ((equal x y) t)
+    ((equal y '?) t)
+    (t nil)
+    )
+  )
+
+(defun match-triple (x y)
+  (every #'match-element x y)
+  )
+
+(defun fetch (y)
+  (remove-if-not
+    #'(lambda (x) (match-triple x y))
+    blockdata
+    )
+  )
+
+(defun supporters (str)
+  (mapcar
+    #'(lambda (x) (first x))
+    (fetch (append '(? supports) (list str))) 
+    )
+  )
+
+(defun desc1 (name)
+  (reduce 
+    #'append
+    (fetch (append (list name) '(? ?)))
+    )
+  )
+
+(defun description (name)
+  (remove-if #'(lambda (x) (equal x name)) (desc1 name))
+  )
+
+(defun supp-cube-list (name)
+  (remove-if-not
+    #'(lambda (supporter)
+        (fetch
+          (append (list supporter) '(shape cube))
+          )
+        ) 
+    (supporters name)
+    )
+  )
+
+(defun supp-cube (name)
+  (if (supp-cube-list name)
+      t
+      nil
+      )
+  )
