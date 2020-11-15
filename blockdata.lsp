@@ -68,7 +68,7 @@
   (remove-if-not
     #'(lambda (supporter)
         (fetch
-          (append (list supporter) '(shape cube))
+          (list supporter 'shape 'cube)
           )
         ) 
     (supporters name)
